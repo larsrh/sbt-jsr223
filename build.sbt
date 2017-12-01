@@ -51,3 +51,28 @@ lazy val launcher = project.in(file("launcher"))
       "org.python" % "jython-standalone" % "2.7.1" % Test
     )
   )
+
+// Release stuff
+
+import ReleaseTransformations._
+
+releaseVcsSign := true
+releaseCrossBuild := true
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  releaseStepCommand("publishSigned"),
+  setNextVersion,
+  commitNextVersion,
+  releaseStepCommand("sonatypeRelease")
+)
+
+
+// Miscellaneous
+
+cancelable in Global := true
