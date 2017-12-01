@@ -1,4 +1,4 @@
-package info.hupel.jsr233
+package info.hupel.jsr223
 
 import java.nio.charset.Charset
 import java.util.Collections

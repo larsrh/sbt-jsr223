@@ -1,4 +1,4 @@
-package info.hupel.jsr233
+package info.hupel.jsr223
 
 object TestObject {
 

@@ -1,4 +1,4 @@
-package info.hupel.jsr233;
+package info.hupel.jsr223;
 
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Map;
 
-public class LaunchConfig {
+public final class LaunchConfig {
 
     private final String language;
     private final String script;
@@ -57,15 +57,6 @@ public class LaunchConfig {
         bindings.putAll(initialBindings);
         engine.eval(script, bindings);
         return bindings;
-    }
-
-    public void main(String args[]) {
-        try {
-            launch();
-        }
-        catch (ScriptException e) {
-            e.printStackTrace();
-        }
     }
 
 }
