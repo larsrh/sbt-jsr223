@@ -38,7 +38,7 @@ lazy val noPublishSettings = Seq(
 lazy val root = project.in(file("."))
   .settings(standardSettings)
   .settings(noPublishSettings)
-  .aggregate(launcher)
+  .aggregate(launcher, plugin)
 
 lazy val launcher = project.in(file("launcher"))
   .settings(standardSettings)
@@ -51,6 +51,30 @@ lazy val launcher = project.in(file("launcher"))
       "org.python" % "jython-standalone" % "2.7.1" % Test
     )
   )
+
+lazy val plugin = project.in(file("plugin"))
+  .enablePlugins(BuildInfoPlugin)
+  .settings(standardSettings)
+  .settings(
+    moduleName := "sbt-jsr223",
+    sbtPlugin := true,
+    scriptedLaunchOpts += s"-Dproject.version=${version.value}",
+    scriptedBufferLog := false,
+    buildInfoKeys := Seq[BuildInfoKey](
+      version,
+      moduleName in launcher,
+      organization
+    ),
+    buildInfoPackage := "info.hupel.jsr223.sbt",
+    libraryDependencies += "org.apache.commons" % "commons-text" % "1.1",
+    scripted := {
+      // we need to publish launcher first, because the plugin pulls it in as
+      // a dependency
+      (publishLocal in launcher).value
+      scripted.evaluated
+    }
+  )
+
 
 // Release stuff
 

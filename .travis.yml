@@ -12,3 +12,4 @@ before_cache:
 
 script:
   - sbt test
+  - sbt scripted

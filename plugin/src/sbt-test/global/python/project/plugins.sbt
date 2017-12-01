@@ -1,0 +1,1 @@
+addSbtPlugin("info.hupel" % "sbt-jsr223" % sys.props("project.version"))
