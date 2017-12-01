@@ -3,8 +3,8 @@ scalaVersion := "2.12.4"
 enablePlugins(JSR223Plugin)
 
 jsr223Scripts in Compile += Script(
-  "info.hupel.test",
+  "test",
   "Main",
   Language.Python,
-  Script.Literal("print 'hi'")
+  Script.Literal("from test import Test\nprint Test.hi()")
 )
