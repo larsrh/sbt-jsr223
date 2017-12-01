@@ -16,14 +16,20 @@ lazy val standardSettings = Seq(
     else
       Some("releases"  at nexus + "service/local/staging/deploy/maven2")
   },
-  pomExtra :=
+  pomExtra := (
     <developers>
       <developer>
         <id>larsrh</id>
         <name>Lars Hupel</name>
         <url>http://lars.hupel.info</url>
       </developer>
-    </developers>,
+    </developers>
+    <scm>
+      <connection>scm:git:github.com/larsrh/sbt-jsr223.git</connection>
+      <developerConnection>scm:git:git@github.com:larsrh/sbt-jsr223.git</developerConnection>
+      <url>https://github.com/larsrh/sbt-jsr223</url>
+    </scm>
+  ),
   credentials += Credentials(
     Option(System.getProperty("build.publish.credentials")) map (new File(_)) getOrElse (Path.userHome / ".ivy2" / ".credentials")
   )
