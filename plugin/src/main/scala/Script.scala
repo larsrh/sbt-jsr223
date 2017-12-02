@@ -8,7 +8,7 @@ import sbt.io.IO
 
 final case class Script(packageName: String, className: String, language: Language, mode: Script.Mode) {
 
-  private def escape(str: String) = '"' + StringEscapeUtils.escapeJava(str) + '"'
+  private def escape(str: String): String = '"' + StringEscapeUtils.escapeJava(str) + '"'
 
   def generate: String = {
     val config = mode match {

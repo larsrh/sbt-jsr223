@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 public final class LaunchConfig {
 
@@ -26,7 +27,7 @@ public final class LaunchConfig {
 
     public static LaunchConfig ofResource(String language, ClassLoader loader, String resource, Charset charset) throws IOException {
         try {
-            Path path = Paths.get(loader.getResource(resource).toURI());
+            Path path = Paths.get(Objects.requireNonNull(loader.getResource(resource)).toURI());
             return ofPath(language, path, charset);
         }
         catch (URISyntaxException ex) {
