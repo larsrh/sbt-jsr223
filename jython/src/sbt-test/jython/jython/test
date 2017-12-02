@@ -1,0 +1,3 @@
+> pythonCompile
+> jython:run -c "import hi"
+-> jython:run -c "import hi2"

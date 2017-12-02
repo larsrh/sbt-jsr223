@@ -41,10 +41,19 @@ lazy val noPublishSettings = Seq(
   publishArtifact := false
 )
 
+lazy val scriptedSettings = Seq(
+  scriptedLaunchOpts += s"-Dproject.version=${version.value}",
+  scriptedBufferLog := false
+)
+
+lazy val jythonVersion = settingKey[String]("Jython version")
+
+jythonVersion in ThisBuild := "2.7.1"
+
 lazy val root = project.in(file("."))
   .settings(standardSettings)
   .settings(noPublishSettings)
-  .aggregate(launcher, plugin)
+  .aggregate(launcher, plugin, jython)
 
 lazy val launcher = project.in(file("launcher"))
   .settings(standardSettings)
@@ -54,22 +63,22 @@ lazy val launcher = project.in(file("launcher"))
     crossPaths := false,
     libraryDependencies ++= Seq(
       "org.specs2" %% "specs2-core" % "4.0.2" % Test,
-      "org.python" % "jython-standalone" % "2.7.1" % Test
+      "org.python" % "jython-standalone" % jythonVersion.value % Test
     )
   )
 
 lazy val plugin = project.in(file("plugin"))
   .enablePlugins(BuildInfoPlugin)
   .settings(standardSettings)
+  .settings(scriptedSettings)
   .settings(
     moduleName := "sbt-jsr223",
     sbtPlugin := true,
-    scriptedLaunchOpts += s"-Dproject.version=${version.value}",
-    scriptedBufferLog := false,
     buildInfoKeys := Seq[BuildInfoKey](
       version,
       moduleName in launcher,
-      organization
+      organization,
+      jythonVersion
     ),
     buildInfoPackage := "info.hupel.jsr223.sbt",
     libraryDependencies += "org.apache.commons" % "commons-text" % "1.1",
@@ -79,6 +88,16 @@ lazy val plugin = project.in(file("plugin"))
       (publishLocal in launcher).value
       scripted.evaluated
     }
+  )
+
+lazy val jython = project.in(file("jython"))
+  .dependsOn(plugin)
+  .settings(standardSettings)
+  .settings(scriptedSettings)
+  .settings(
+    moduleName := "sbt-jython",
+    sbtPlugin := true,
+    libraryDependencies += "org.python" % "jython-standalone" % jythonVersion.value
   )
 
 
