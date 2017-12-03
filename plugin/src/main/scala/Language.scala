@@ -15,8 +15,8 @@ object Language {
   }
 
   def ofName(name0: String): Language = new Language {
-    val name = name0
-    val dependencies = None
+    val name: String = name0
+    val dependencies: None.type = None
   }
 
 }

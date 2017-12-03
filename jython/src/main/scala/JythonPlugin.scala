@@ -36,7 +36,7 @@ object JythonPlugin extends AutoPlugin {
     IO.delete(target)
 
     val mapping = sources.filter(_.exists()).flatMap { source =>
-      ((PathFinder(source) ** pythonFilter) --- source) pair (Path.rebase(source, target))
+      ((PathFinder(source) ** pythonFilter) --- source) pair Path.rebase(source, target)
     }
 
     if (mapping.nonEmpty) {
@@ -62,7 +62,7 @@ object JythonPlugin extends AutoPlugin {
     }
     else
       Nil
-  } tag(JythonCompiler) // probably over-cautious, but not sure how thread-safe Jython is
+  } tag JythonCompiler // probably over-cautious, but not sure how thread-safe Jython is
 
   override def projectSettings: Seq[Def.Setting[_]] =
     inConfig(Jython)(Defaults.configSettings) ++

@@ -3,7 +3,6 @@ package info.hupel.jsr223
 import java.nio.charset.Charset
 import java.util.Collections
 import javax.script.ScriptException
-
 import scala.collection.JavaConverters._
 import scala.util.Try
 import org.specs2.Specification
